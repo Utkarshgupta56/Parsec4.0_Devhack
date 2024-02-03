@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>e-Certify Profile</title>
+    <link rel="stylesheet" href="../static/style3.css">
+    <link href="	https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <script>
+        var username=sessionStorage.getItem('username');
+        document.getElementById('user').innerHTML=username;
+    </script>
+</head>
+
+<body>
+
+    <header>
+        <div>Certifyme</div>
+        <input type="search" placeholder="Search...">
+    </header>
+    <aside class="sidebar bg-opacity-25">
+        <img src="https://images.pexels.com/photos/13398438/pexels-photo-13398438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="Profile Picture" width="80" height="80">
+        <h3 id="profile-name"></h3>
+        <p id="profile-rollno" class="crr_inst"></p>
+        <button>VIEW PROFILE</button>
+    </aside>
+
+    <div class="main-content">
+        <section class="profile-card">
+            <h2>Document Upload</h2>
+            <div class="upload">
+                <label for="selectOption">Choose an Event:</label>
+                <select id="selectOption" name="selectOption">
+                    <option value="option1">IIC</option>
+                    <option value="option2">Parsec</option>
+                    <option value="option3">CDC</option>
+                    <option value="option4">Foss</option>
+                </select>
+                <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta dignissimos repellendus eaque, animi, harum quo in doloribus maxime molestiae est nostrum totam blanditiis voluptatem veritatis reprehenderit suscipit, provident officiis iusto!</p> -->
+            </div>
+            <div class="add_doc_button">
+                <input type="text">
+                <button class="doc_button">Add Roll number</button>
+            </div>
+        </section>
+
+        <section class="documents">
+            <h2>My Documents</h2>
+            <div class="document-item">
+                <p>Mydocument</p>
+                <button class="button">VIEW</button>
+            </div>
+        </section>
+
+        <aside class="notifications">
+            <h2>Notifications</h2>
+            <div class="notify">
+                <p>MORE !!!</p>
+            </div>
+        </aside>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var username = localStorage.getItem('username');
+            document.getElementById('user').innerHTML = username;
+        });
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+        <script>
+            const urlParams = new URLSearchParams(window.location.search);
+            const name = urlParams.get('name');
+            const rollno = urlParams.get('rollno');
+        
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('profile-name').textContent = name || 'Default Name';
+                document.getElementById('profile-rollno').textContent = rollno ? `ID: ${rollno}` : 'Default ID';
+            });
+        </script>
+</body>
+
+</html>
