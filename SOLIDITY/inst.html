@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./inst_style.css">
+  <title>Document</title>
+  <script>
+    function addEvent() {
+      // Prompt the user for a new event name
+      var eventName = prompt("Enter the new event name:");
+
+      // Check if the user entered a name and if the name is not empty
+      if (eventName && eventName.trim() !== "") {
+        // Create a new option element
+        var option = document.createElement("option");
+        
+        // Set the value and text of the new option
+        option.value = eventName.toLowerCase().replace(/\s+/g, '_');
+        option.text = eventName;
+
+        // Append the new option to the select dropdown
+        document.getElementById("event").appendChild(option);
+      }
+    }
+    function loadFileContent() {
+      // Assuming results.txt is accessible at the same location as your HTML file
+      fetch('results.txt')
+        .then(response => response.text())
+        .then(text => {
+          // Find the <p> element by its class name or ID and set its content
+          document.querySelector('.content1 p').innerText = text;
+        })
+        .catch(error => console.error('Error loading the file:', error));
+    }
+    
+    // Call the function once the page content is fully loaded
+    window.addEventListener('DOMContentLoaded', (event) => {
+      loadFileContent();
+    });
+  </script>
+</head>
+<body>
+  <div class="overall">
+    <div class="popup" id="popup-1">
+      <div class="overlay"></div>
+      <div class="content1">
+        <div class="close-btn" onclick="togglePopUp()">&times;</div>
+        <h1>Smart Contract Deployed</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis aliquid adipisci quam qui perferendis, repellat quo rem, praesentium porro delectus ratione voluptate consequatur fugiat in aliquam! Vitae animi temporibus eos.</p>
+      </div>
+    </div>
+    <div class="navbar">
+      <div><h1>E-Certify</h1></div>
+      <div><input type="text" placeholder="Search"></div>
+    </div>
+    <div class="content">
+      <div class="sidebar">
+        <h2>IIT Dharwad</h2>
+        <hr>
+        <a href="#">CDC</a><br>
+        <a href="#">IIC</a><br>
+        <a href="#">Others</a><br>
+      </div>
+      <div class="details">
+        <div>
+          <h1>Approve Certificates</h1>
+        </div>
+        <div class="edit_event">
+          <div>
+          <select name="event" id="event">
+            <option value="af">ANNUAL FEST</option>
+          </select>
+          </div>
+          <div>
+            <button name="add_event" id="add_event" onclick="addEvent()">ADD EVENT
+            </button>
+          </div>
+        </div>
+        <div class="inputs">
+          <label for="roll">
+            <input type="text" id="roll" placeholder="Enter Roll">
+          </label>
+        </div>
+        <div class="submit">
+          <button onclick="togglePopUp()">SUBMIT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./inst_land.js"></script>
+</body>
+</html>

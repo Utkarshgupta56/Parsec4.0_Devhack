@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Form</title>
+    <link rel="stylesheet" href="../static/style2.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script>
+        function loadFileContent() {
+      // Assuming results.txt is accessible at the same location as your HTML file
+      fetch('results.txt')
+        .then(response => response.text())
+        .then(text => {
+          // Find the <p> element by its class name or ID and set its content
+          document.querySelector('.content1 p').innerText = text;
+        })
+        .catch(error => console.error('Error loading the file:', error));
+    }
+    
+    // Call the function once the page content is fully loaded
+    window.addEventListener('DOMContentLoaded', (event) => {
+      loadFileContent();
+    });
+    </script>
+</head>
+<body>
+    <div class="wrapper">
+        <form action="/certificate" method="post">
+            <h1>Add Event Details</h1>
+            <div class="input-box">
+                <input type="text" name="organizer" placeholder="Organizer" required>
+            </div>
+            <div class="input-box">
+                <input type="password" name="event" placeholder="Event Name" required>
+            </div>
+            <div class="input-box">
+                <input type="text" name="rollno" placeholder="Roll number" required>
+            </div>
+            <div class="overall">
+                <div class="popup" id="popup-1">
+                  <div class="overlay"></div>
+                  <div class="content1">
+                    <div class="close-btn" onclick="togglePopUp()">&times;</div>
+                    <h1>Smart Contract Deployed</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis aliquid adipisci quam qui perferendis, repellat quo rem, praesentium porro delectus ratione voluptate consequatur fugiat in aliquam! Vitae animi temporibus eos.</p>
+                  </div>
+            </div>
+            <button type="submit" class="btn" onclick="togglePopUp()">Create Event</button>
+        </form>
+    </div>
+    <script src="./inst_land.js"></script>
+</body>
+</html>

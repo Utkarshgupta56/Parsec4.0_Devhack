@@ -1,0 +1,4 @@
+Summary
+=======
+> Total deployments:   2
+> Final cost:          0.003210993063978879 ETH

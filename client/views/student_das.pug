@@ -1,0 +1,71 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title e-Certify Profile
+    link(rel="stylesheet", href="../static/style3.css")
+    link(href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css")
+    script.
+      const username = sessionStorage.getItem('username');
+      document.getElementById('user').innerHTML = username;
+
+  body
+    header
+      div Certifyme
+      input(type="search", placeholder="Search...")
+
+    aside.sidebar.bg-opacity-25
+      img(src="https://images.pexels.com/photos/13398438/pexels-photo-13398438.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1", alt="Profile Picture", width="80", height="80")
+      h3#profile-name
+      p#profile-rollno.crr_inst
+      button VIEW PROFILE
+
+    div.main-content
+      section.profile-card
+        h2 Document Upload
+        div.upload
+          label(for="selectOption") Choose an Event:
+          select#selectOption(name="selectOption")
+            option(value="option1") IIC
+            option(value="option2") Parsec
+            option(value="option3") CDC
+            option(value="option4") Foss
+
+      section.documents
+        h2 Events Created
+        ul#eventList
+          each event in events
+            li 
+              | #{event.event} by #{event.organizer}
+              if event.authenticated
+                span(style="color: green; margin-left: 10px;") Authenticated
+              else
+                button(type="button", onclick=`authenticateEvent('${event.rollno}', '${rollno}')`) Authenticate
+
+      aside.notifications
+        h2 Notifications
+        div.notify
+          p MORE !!!
+
+    script.
+      const urlParams = new URLSearchParams(window.location.search);
+      const name = urlParams.get('name');
+      const rollno = urlParams.get('rollno');
+
+      document.addEventListener('DOMContentLoaded', function () {
+        document.getElementById('profile-name').textContent = name || 'Default Name';
+        document.getElementById('profile-rollno').textContent = rollno ? `ID: ${rollno}` : 'Default ID';
+      });
+
+      function authenticateEvent(eventRollno, userRollno) {
+        // Add logic to authenticate user for the given event
+        if (eventRollno === userRollno) {
+          // Perform authentication and update the UI
+          alert('Authenticated for the event!');
+          // You might want to send a request to the server to mark the event as authenticated
+          // and update the UI accordingly
+        } else {
+          alert('Invalid credentials for the event!');
+        }
+      }

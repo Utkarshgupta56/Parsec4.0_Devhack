@@ -6,7 +6,7 @@ const app = express();
 const port = 80;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+app.set('view engine', 'pug');
 main().catch(err=>console.log(err));
 async function main(){
 mongoose.connect('mongodb://127.0.0.1:27017/IDs',{useNewUrlParser: true, useUnifiedTopology: true});
@@ -31,13 +31,26 @@ app.get('/signup', (req, res) => {
 app.get('/', (req, res) => {
     res.status(200).sendFile(path.join(__dirname, 'views', 'first.html'));
 });
-app.get('/sdash', (req, res) => {
-    const name = req.query.name;
-    const rollno = req.query.rollno;
+app.get('/certificate', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'views', 'certificate.html'));
+});
+app.get('/inst', (req, res) => {
+    res.status(200).sendFile(path.join(__dirname, 'views', 'inst.html'));
+});
+app.get('/sdash', async (req, res) => {
+    try {
+        const name = req.query.name;
+        const rollno = req.query.rollno;
 
-    // Use name and rollno in your rendering logic or other processing
+        // Fetch events with eventn = 1 from the database
+        const events = await IDs.find({ eventn: 1 });
 
-    res.status(200).sendFile(path.join(__dirname, 'views', 'student_dash.html'));
+        // Render the student_dash.pug template and pass events data
+        res.render('student_das.pug', { name, rollno, events });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 var db=mongoose.connection;
 db.on('error',console.error.bind(console,'connection error:'));
@@ -50,6 +63,9 @@ var Logins = new mongoose.Schema({
     email:String,
     pass:String,
     cpass:String,
+    organizer:String,
+    event:String,
+    eventn:Number,
 })
 var IDs = mongoose.model('Id',Logins);
 app.post('/signup', async (req, res) => {
@@ -71,9 +87,29 @@ app.post('/signup', async (req, res) => {
         });
         
         await newUser.save();
+        if(newUser.email==="iic@iitdh.ac.in"){
+            res.status(200).sendFile(path.join(__dirname, 'views', 'inst.html'));
+        }else{
         res.redirect(`/sdash?name=${encodeURIComponent(req.body.name)}&rollno=${encodeURIComponent(req.body.rollno)}`);
+        }
     }
 })
+app.post('/certificate', async (req, res) => {
+
+        const newUser = new IDs({
+            organizer:req.body.organizer,
+            rollno:req.body.rollno,
+            event: req.body.event,
+            eventn:1
+        });
+        
+        await newUser.save();
+        
+        res.status(200).sendFile(path.join(__dirname, 'views', 'inst.html'));
+        
+        
+        
+});
 app.post('/slogin', async (req, res) => {
     try {
         const email = req.body.email;
@@ -86,6 +122,24 @@ app.post('/slogin', async (req, res) => {
         } else {
             // User is not registered or credentials do not match
             res.status(200).sendFile(path.join(__dirname, 'views', 'slogin.html'));
+        }
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+app.post('/ilogin', async (req, res) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+
+        const user = await IDs.findOne({ email: email, pass: password });
+        if (user && user.email==="iic@iitdh.ac.in" ) {
+            // User is registered and credentials match
+            res.status(200).sendFile(path.join(__dirname, 'views', 'inst.html'));
+        } else {
+            // User is not registered or credentials do not match
+            res.status(200).sendFile(path.join(__dirname, 'views', 'ilogin.html'));
         }
     } catch (error) {
         console.error(error);
